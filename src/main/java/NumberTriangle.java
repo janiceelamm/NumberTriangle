@@ -90,9 +90,27 @@ public class NumberTriangle {
      *
      */
     public int retrieve(String path) {
-        // TODO implement this method
-        return -1;
-    }
+        if (path.equals("")) {
+            return root;
+        } else {
+            char first = path.charAt(0);
+            String rest = path.substring(1);
+
+            if (first == 'l') {
+                if (left == null) {
+                    throw new IllegalArgumentException("Left child is null");
+                }
+                return left.retrieve(rest);
+            } else if (first == 'r') {
+                if (right == null) {
+                    throw new IllegalArgumentException("Right child is null");
+                }
+                return right.retrieve(rest);
+            } else {
+                throw new IllegalArgumentException("Path must contain only 'l' or 'r'");
+            }
+        }
+            }
 
     /** Read in the NumberTriangle structure from a file.
      *
@@ -120,7 +138,7 @@ public class NumberTriangle {
 
         while (line != null) {
             // split the line into numbers
-            String[] parts = line.split("");
+            String[] parts = line.trim().split("\\s+");
             List <NumberTriangle> curRow = new ArrayList<>();
 
             for (String part : parts){
